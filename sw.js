@@ -1,4 +1,4 @@
-const CACHE_NAME = "osteologia-uem-v3";
+const CACHE_NAME = "osteologia-uem-v4";
 const APP_ASSETS = [
   "./",
   "./index.html",
@@ -30,20 +30,17 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener("fetch", (event) => {
   const request = event.request;
-
   if (request.method !== "GET") return;
 
   event.respondWith(
-    caches.match(request).then((cachedResponse) => {
-      if (cachedResponse) return cachedResponse;
+    caches.match(request).then((cached) => {
+      if (cached) return cached;
 
       return fetch(request)
-        .then((networkResponse) => {
-          const responseClone = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(request, responseClone);
-          });
-          return networkResponse;
+        .then((response) => {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
+          return response;
         })
         .catch(() => {
           if (request.mode === "navigate") {
