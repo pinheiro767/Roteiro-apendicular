@@ -1,7 +1,7 @@
 {
   "name": "Roteiro Prático - Osteologia | UEM",
   "short_name": "Osteologia UEM",
-  "description": "App PWA imersivo para Osteologia com checklist, fotos, imagens, PDF e resposta do professor.",
+  "description": "Roteiro prático de Anatomia Humana - Osteologia - Esqueleto apendicular, com checklist, anotações, câmera, imagens, PDF e resposta do professor.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

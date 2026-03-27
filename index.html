@@ -1,7 +1,4 @@
-from pathlib import Path
-import textwrap, json, re, os
-
-html = r'''<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
@@ -9,6 +6,12 @@ html = r'''<!DOCTYPE html>
   <title>Roteiro Prático - Osteologia | UEM</title>
   <meta name="theme-color" content="#0b1020" />
   <meta name="description" content="Roteiro prático de Anatomia Humana - Osteologia - Esqueleto apendicular, com checklist, anotações, câmera, imagens, PDF e resposta do professor." />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Osteologia UEM" />
   <style>
     :root{
       --bg:#060816;
@@ -1086,12 +1089,11 @@ html = r'''<!DOCTYPE html>
       alert('Todos os dados locais foram apagados.');
     });
 
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js"));
+    }
+
     renderApp();
   </script>
 </body>
 </html>
-'''
-
-out = Path('/mnt/data/roteiro_osteologia_uem_v3_completo.html')
-out.write_text(html, encoding='utf-8')
-print(f"Wrote {out}")
