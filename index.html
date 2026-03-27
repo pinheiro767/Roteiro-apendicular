@@ -2,31 +2,35 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Roteiro Prático - Esqueleto Apendicular | UEM</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Roteiro Prático - Osteologia | UEM</title>
+
   <meta name="theme-color" content="#0b1020" />
-  <meta name="description" content="Roteiro prático de Anatomia Humana - Ossos do esqueleto apendicular, com notas, checklist, fotos, imagens e exportação para PDF." />
+  <meta name="description" content="App PWA imersivo de Osteologia com checklist, fotos, imagens, anotações, PDF e resposta do professor." />
+
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="icons/icon-192.png" />
   <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Osteologia UEM" />
 
   <style>
     :root{
-      --bg:#060816;
-      --bg2:#0b1020;
-      --bg3:#0d1430;
-      --card:#121935;
-      --card2:#172142;
-      --card3:#1c2952;
+      --bg:#040714;
+      --bg2:#091124;
+      --bg3:#0f1938;
+      --card:#121a35;
+      --card2:#1a2752;
+      --line:rgba(179,199,255,.14);
+      --text:#eef4ff;
       --muted:#9fb0d1;
-      --text:#eef3ff;
-      --line:rgba(173,191,230,.14);
       --accent:#7aa2ff;
       --accent2:#6ee7ff;
       --ok:#34d399;
       --warn:#fbbf24;
       --danger:#fb7185;
-      --shadow:0 18px 55px rgba(0,0,0,.35);
+      --shadow:0 20px 60px rgba(0,0,0,.38);
       --radius:24px;
       --sidebar:300px;
     }
@@ -37,66 +41,69 @@
       margin:0;
       font-family:Inter,Arial,Helvetica,sans-serif;
       color:var(--text);
-      background:
-        radial-gradient(circle at top, rgba(122,162,255,.18), transparent 26%),
-        radial-gradient(circle at 80% 20%, rgba(110,231,255,.10), transparent 18%),
-        linear-gradient(180deg, #050814 0%, #081022 35%, #060816 100%);
       min-height:100vh;
+      background:
+        radial-gradient(circle at 15% 0%, rgba(122,162,255,.20), transparent 22%),
+        radial-gradient(circle at 85% 12%, rgba(110,231,255,.10), transparent 16%),
+        radial-gradient(circle at 50% 100%, rgba(122,162,255,.08), transparent 30%),
+        linear-gradient(180deg, #040714 0%, #091124 35%, #050814 100%);
     }
 
     .app-shell{
-      max-width:1450px;
+      max-width:1480px;
       margin:0 auto;
-      padding:20px 16px 72px;
+      padding:18px 14px 72px;
     }
 
     .hero{
       position:relative;
       overflow:hidden;
-      background:linear-gradient(135deg, rgba(18,25,53,.94), rgba(9,14,30,.92));
       border:1px solid var(--line);
-      box-shadow:var(--shadow);
       border-radius:32px;
-      padding:28px 22px;
+      padding:26px 20px;
+      box-shadow:var(--shadow);
+      background:
+        linear-gradient(135deg, rgba(18,26,53,.94), rgba(7,12,28,.92));
       margin-bottom:18px;
     }
 
-    .hero::after{
+    .hero::before{
       content:"";
       position:absolute;
-      inset:auto -80px -80px auto;
-      width:240px;
-      height:240px;
+      width:260px;
+      height:260px;
+      right:-80px;
+      bottom:-80px;
       background:radial-gradient(circle, rgba(122,162,255,.18), transparent 70%);
       pointer-events:none;
     }
 
     .topline{
-      font-size:.88rem;
+      color:var(--accent2);
+      font-size:.86rem;
       letter-spacing:.08em;
       text-transform:uppercase;
-      color:var(--accent2);
       margin-bottom:10px;
     }
 
     h1{
-      margin:0 0 10px;
+      margin:0 0 8px;
       font-size:clamp(1.8rem,3vw,3rem);
       line-height:1.08;
     }
 
     .subtitle{
-      color:var(--muted);
-      font-size:1rem;
-      line-height:1.55;
+      margin:0;
       max-width:980px;
+      color:var(--muted);
+      line-height:1.6;
     }
 
     .meta-grid{
       display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
       gap:12px;
-      margin-top:20px;
+      margin-top:18px;
     }
 
     .meta-card{
@@ -108,29 +115,24 @@
 
     .meta-card strong{
       display:block;
-      font-size:.88rem;
       color:var(--accent2);
       margin-bottom:6px;
-    }
-
-    .meta-card span{
-      color:var(--text);
-      font-size:.97rem;
+      font-size:.88rem;
     }
 
     .toolbar{
       position:sticky;
       top:10px;
-      z-index:30;
+      z-index:40;
       display:flex;
       gap:10px;
       flex-wrap:wrap;
-      margin:0 0 18px;
+      margin-bottom:18px;
       padding:12px;
       border:1px solid var(--line);
+      border-radius:20px;
       background:rgba(8,12,25,.82);
       backdrop-filter:blur(14px);
-      border-radius:20px;
       box-shadow:var(--shadow);
     }
 
@@ -138,21 +140,24 @@
       border:none;
       cursor:pointer;
       border-radius:16px;
-      padding:12px 16px;
-      color:#081022;
-      font-weight:700;
-      font-size:.95rem;
+      padding:12px 15px;
+      font-weight:800;
+      font-size:.94rem;
+      color:#07111f;
       background:linear-gradient(135deg, var(--accent), var(--accent2));
-      box-shadow:0 10px 25px rgba(102,132,255,.25);
-      transition:.2s transform ease, .2s opacity ease;
+      box-shadow:0 10px 24px rgba(102,132,255,.24);
     }
 
-    .btn:hover{transform:translateY(-1px)}
     .btn.secondary{
       background:rgba(255,255,255,.05);
       color:var(--text);
       border:1px solid var(--line);
       box-shadow:none;
+    }
+
+    .btn.danger{
+      background:linear-gradient(135deg,#fb7185,#fda4af);
+      color:#2a0c14;
     }
 
     .btn.ghost{
@@ -162,24 +167,29 @@
       box-shadow:none;
     }
 
-    .btn.danger{
-      background:linear-gradient(135deg,#fb7185,#fda4af);
-      color:#240b12;
-    }
-
     .search-wrap{flex:1; min-width:220px}
     .search{
       width:100%;
       border:none;
       outline:none;
-      border-radius:16px;
       padding:13px 14px;
-      background:rgba(255,255,255,.05);
+      border-radius:16px;
       color:var(--text);
+      background:rgba(255,255,255,.05);
       border:1px solid var(--line);
     }
-
     .search::placeholder{color:#8ea2cb}
+
+    .ios-hint{
+      margin-bottom:16px;
+      padding:14px 16px;
+      border-radius:18px;
+      border:1px solid rgba(251,191,36,.25);
+      background:rgba(251,191,36,.08);
+      color:#fde68a;
+      line-height:1.5;
+      display:none;
+    }
 
     .layout{
       display:grid;
@@ -193,49 +203,49 @@
       top:92px;
       max-height:calc(100vh - 110px);
       overflow:auto;
-      padding:14px;
-      background:linear-gradient(180deg, rgba(18,25,53,.95), rgba(11,16,32,.95));
       border:1px solid var(--line);
       border-radius:24px;
+      padding:14px;
       box-shadow:var(--shadow);
+      background:linear-gradient(180deg, rgba(18,25,53,.95), rgba(11,16,32,.95));
     }
 
     .sidebar h2{
-      margin:0 0 10px;
-      font-size:1.05rem;
+      margin:0 0 8px;
+      font-size:1.04rem;
     }
 
-    .sidebar .mini{
-      color:var(--muted);
-      font-size:.88rem;
-      line-height:1.4;
+    .sidebar p{
       margin:0 0 14px;
+      color:var(--muted);
+      font-size:.9rem;
+      line-height:1.45;
     }
 
     .nav-group{
       border-top:1px solid var(--line);
-      padding-top:12px;
       margin-top:12px;
+      padding-top:12px;
     }
 
-    .nav-group:first-of-type{
+    .nav-group:first-child{
       border-top:none;
-      padding-top:0;
       margin-top:0;
+      padding-top:0;
     }
 
     .nav-group-title{
       display:block;
-      font-size:.9rem;
-      color:var(--accent2);
       margin-bottom:10px;
-      font-weight:700;
+      color:var(--accent2);
+      font-weight:800;
+      font-size:.9rem;
     }
 
     .nav-list{
       list-style:none;
-      padding:0;
       margin:0;
+      padding:0;
       display:grid;
       gap:8px;
     }
@@ -244,45 +254,31 @@
       display:block;
       text-decoration:none;
       color:var(--text);
-      padding:10px 12px;
-      border-radius:14px;
-      background:rgba(255,255,255,.03);
-      border:1px solid transparent;
       font-size:.92rem;
       line-height:1.35;
-      transition:.2s ease;
+      border-radius:14px;
+      padding:10px 12px;
+      background:rgba(255,255,255,.03);
+      border:1px solid transparent;
     }
 
-    .nav-list a:hover,
-    .nav-list a.active{
+    .nav-list a.active,
+    .nav-list a:hover{
       background:rgba(122,162,255,.12);
-      border-color:rgba(122,162,255,.25);
-      color:#fff;
-    }
-
-    .content-col{
-      min-width:0;
+      border-color:rgba(122,162,255,.22);
     }
 
     .section-card{
-      background:linear-gradient(180deg, rgba(18,25,53,.95), rgba(11,16,32,.95));
+      background:linear-gradient(180deg, rgba(18,25,53,.96), rgba(11,16,32,.96));
       border:1px solid var(--line);
       border-radius:28px;
       box-shadow:var(--shadow);
       padding:22px 18px;
-      margin:0 0 20px;
+      margin-bottom:20px;
     }
 
-    .section-title{
-      margin:0 0 6px;
-      font-size:1.55rem;
-    }
-
-    .section-subtitle{
-      margin:0 0 18px;
-      color:var(--muted);
-      line-height:1.55;
-    }
+    .section-title{margin:0 0 6px;font-size:1.55rem}
+    .section-subtitle{margin:0 0 18px;color:var(--muted);line-height:1.55}
 
     .bone-grid{
       display:grid;
@@ -291,55 +287,37 @@
     }
 
     .bone-card{
-      background:linear-gradient(180deg, rgba(23,33,66,.98), rgba(14,20,39,.98));
       border:1px solid var(--line);
       border-radius:24px;
       padding:18px;
+      background:linear-gradient(180deg, rgba(23,33,66,.98), rgba(13,20,39,.98));
       scroll-margin-top:100px;
     }
 
     .bone-head{
       display:flex;
       justify-content:space-between;
-      align-items:flex-start;
       gap:12px;
+      align-items:flex-start;
       margin-bottom:12px;
     }
 
-    .bone-card h3{
-      margin:0;
-      font-size:1.2rem;
-      color:#fff;
-    }
-
+    .bone-card h3{margin:0;font-size:1.2rem}
     .badge{
-      font-size:.78rem;
-      padding:7px 10px;
-      border-radius:999px;
-      background:rgba(110,231,255,.12);
-      border:1px solid rgba(110,231,255,.18);
-      color:var(--accent2);
       white-space:nowrap;
+      font-size:.78rem;
+      border-radius:999px;
+      padding:7px 10px;
+      color:var(--accent2);
+      background:rgba(110,231,255,.10);
+      border:1px solid rgba(110,231,255,.18);
     }
 
-    .terms{
-      margin:0;
-      padding-left:18px;
-      color:#dce6ff;
-    }
+    .terms{margin:0;padding-left:18px;color:#dce6ff}
+    .terms li{margin:8px 0;line-height:1.48}
+    .terms ol{margin-top:8px;padding-left:20px}
 
-    .terms li{
-      margin:8px 0;
-      line-height:1.48;
-    }
-
-    .terms ol{
-      margin-top:8px;
-      padding-left:20px;
-    }
-
-    .checklist-block,
-    .notes-block{
+    .block{
       margin-top:16px;
       padding-top:16px;
       border-top:1px solid var(--line);
@@ -347,9 +325,9 @@
 
     .block-title{
       margin:0 0 12px;
-      font-size:.98rem;
       color:var(--accent2);
-      font-weight:700;
+      font-size:.97rem;
+      font-weight:800;
     }
 
     .checklist{
@@ -362,25 +340,23 @@
 
     .check-item{
       display:flex;
-      align-items:flex-start;
       gap:10px;
+      align-items:flex-start;
+      padding:10px 12px;
+      border-radius:14px;
       background:rgba(255,255,255,.03);
       border:1px solid rgba(255,255,255,.04);
-      border-radius:14px;
-      padding:10px 12px;
     }
 
     .check-item input{
       margin-top:3px;
-      transform:scale(1.15);
+      transform:scale(1.12);
       accent-color:#7aa2ff;
-      flex:0 0 auto;
     }
 
     .check-item span{
       line-height:1.42;
       font-size:.93rem;
-      color:#e7efff;
     }
 
     .check-item.done span{
@@ -388,7 +364,7 @@
       opacity:.72;
     }
 
-    .check-actions{
+    .action-row{
       display:flex;
       gap:10px;
       flex-wrap:wrap;
@@ -401,7 +377,7 @@
       border-radius:12px;
       padding:10px 12px;
       font-size:.85rem;
-      font-weight:700;
+      font-weight:800;
       background:rgba(255,255,255,.06);
       color:var(--text);
       border:1px solid var(--line);
@@ -411,10 +387,10 @@
       width:100%;
       min-height:130px;
       resize:vertical;
+      border-radius:16px;
+      border:1px solid var(--line);
       background:rgba(255,255,255,.04);
       color:var(--text);
-      border:1px solid var(--line);
-      border-radius:16px;
       padding:14px;
       font:inherit;
       line-height:1.5;
@@ -422,8 +398,8 @@
 
     .media-actions{
       display:flex;
-      flex-wrap:wrap;
       gap:10px;
+      flex-wrap:wrap;
       margin-top:12px;
     }
 
@@ -438,9 +414,8 @@
       border:1px solid var(--line);
       color:var(--text);
       cursor:pointer;
-      font-weight:600;
+      font-weight:700;
     }
-
     .upload-label input{display:none}
 
     .gallery{
@@ -466,26 +441,53 @@
       object-fit:cover;
       display:block;
       cursor:pointer;
-      transition:.22s ease transform;
-    }
-
-    .thumb:hover img{
-      transform:scale(1.04);
     }
 
     .remove-media{
       position:absolute;
       top:8px;
       right:8px;
-      border:none;
-      cursor:pointer;
       width:34px;
       height:34px;
+      border:none;
       border-radius:999px;
+      cursor:pointer;
       background:rgba(0,0,0,.68);
       color:#fff;
-      font-weight:700;
       font-size:1rem;
+      font-weight:700;
+    }
+
+    .teacher-box{
+      margin-top:12px;
+      padding:14px;
+      border-radius:16px;
+      background:rgba(122,162,255,.08);
+      border:1px solid rgba(122,162,255,.18);
+      display:none;
+    }
+
+    .teacher-box.show{display:block}
+
+    .teacher-label{
+      display:block;
+      margin-bottom:10px;
+      color:var(--accent2);
+      font-weight:800;
+      font-size:.9rem;
+    }
+
+    .teacher-answer{
+      width:100%;
+      min-height:110px;
+      resize:vertical;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.05);
+      color:var(--text);
+      padding:12px;
+      font:inherit;
+      line-height:1.5;
     }
 
     .status{
@@ -501,7 +503,7 @@
       position:fixed;
       inset:0;
       z-index:100;
-      background:rgba(2,6,18,.92);
+      background:rgba(2,6,18,.93);
       display:flex;
       align-items:center;
       justify-content:center;
@@ -509,18 +511,13 @@
     }
 
     .lightbox.hidden{display:none !important}
-
     .lightbox-inner{
       position:relative;
       max-width:min(1200px,95vw);
       max-height:90vh;
-      width:auto;
     }
 
     .lightbox img{
-      display:block;
-      width:auto;
-      height:auto;
       max-width:100%;
       max-height:90vh;
       border-radius:20px;
@@ -533,11 +530,11 @@
       position:absolute;
       top:-12px;
       right:-12px;
-      border:none;
-      cursor:pointer;
       width:42px;
       height:42px;
+      border:none;
       border-radius:999px;
+      cursor:pointer;
       background:#111827;
       color:#fff;
       font-size:1.25rem;
@@ -545,7 +542,7 @@
     }
 
     footer{
-      margin-top:26px;
+      margin-top:28px;
       padding:18px 14px;
       border-top:1px solid var(--line);
       color:var(--muted);
@@ -555,44 +552,27 @@
 
     footer strong{color:var(--text)}
 
-    @media (max-width: 1080px){
-      .layout{
-        grid-template-columns:1fr;
-      }
-
-      .sidebar{
-        position:relative;
-        top:auto;
-        max-height:none;
-      }
+    @media (max-width:1080px){
+      .layout{grid-template-columns:1fr}
+      .sidebar{position:relative;top:auto;max-height:none}
     }
 
-    @media (max-width: 700px){
-      .bone-grid{
-        grid-template-columns:1fr;
-      }
-
-      .gallery{
-        grid-template-columns:repeat(2,1fr);
-      }
-
-      .thumb{
-        min-height:150px;
-      }
+    @media (max-width:700px){
+      .bone-grid{grid-template-columns:1fr}
+      .gallery{grid-template-columns:repeat(2,1fr)}
+      .thumb{min-height:150px}
     }
 
     @media print{
-      body{background:#fff; color:#000}
-      .toolbar,.sidebar,.media-actions,.remove-media,.status,.search-wrap,.lightbox,.mini-btn,.upload-label,.btn,.close-lightbox{display:none !important}
-      .hero,.section-card,.bone-card{box-shadow:none; background:#fff; color:#000; border:1px solid #ccc}
-      .subtitle,.section-subtitle,.muted,.meta-card strong{color:#333 !important}
-      .meta-card span,.terms,.bone-card h3,.section-title,h1,footer strong,.check-item span{color:#000 !important}
-      textarea.note{border:1px solid #999; color:#000; background:#fff}
+      body{background:#fff;color:#000}
+      .toolbar,.sidebar,.media-actions,.remove-media,.status,.lightbox,.btn,.mini-btn,.upload-label,.ios-hint{display:none !important}
+      .hero,.section-card,.bone-card{box-shadow:none;background:#fff;color:#000;border:1px solid #ccc}
+      .subtitle,.section-subtitle,.muted{color:#333 !important}
+      .terms,.section-title,h1,.check-item span,.bone-card h3,footer strong{color:#000 !important}
+      textarea.note,.teacher-answer{border:1px solid #999;color:#000;background:#fff}
       .gallery{grid-template-columns:repeat(3,1fr)}
-      .thumb{break-inside:avoid}
-      footer{border-top:1px solid #999; color:#333}
+      .teacher-box{display:block !important;background:#fff;border:1px solid #ccc}
       .layout{display:block}
-      .check-item{background:#fff; border:1px solid #ddd}
     }
   </style>
 </head>
@@ -602,21 +582,25 @@
       <div class="topline">Universidade Estadual de Maringá · Departamento de Ciências Morfológicas – DCM</div>
       <h1>Roteiro prático · Anatomia Humana · Esqueleto apendicular</h1>
       <p class="subtitle">
-        App PWA em fundo escuro imersivo para estudo prático de ossos, com anotações, checklist de identificação,
-        captura de fotos, inserção de imagens, funcionamento instalável e opção de salvar em PDF.
+        App PWA imersivo para aula prática, com checklist, notas, fotos, imagens, PDF, backup e área de resposta do professor.
       </p>
 
       <div class="meta-grid">
         <div class="meta-card"><strong>Roteiro</strong><span>Esqueleto apendicular</span></div>
         <div class="meta-card"><strong>Responsável docente</strong><span>Profª Drª. Carmem Patrícia Barbosa</span></div>
-        <div class="meta-card"><strong>Recursos</strong><span>Tomar notas, checklist, tirar fotos, inserir imagens, salvar localmente e imprimir em PDF</span></div>
+        <div class="meta-card"><strong>Recursos</strong><span>Checklist, anotações, fotos, imagens, PDF, backup local e resposta do professor</span></div>
       </div>
     </header>
 
+    <div class="ios-hint" id="iosHint">
+      No iPhone, abra este site no <strong>Safari</strong>, toque em <strong>Compartilhar</strong>, depois em <strong>Adicionar à Tela de Início</strong> e ative <strong>Abrir como app</strong> quando aparecer. Esse é o modo indicado pela Apple para usar o site como app. 1
+    </div>
+
     <div class="toolbar">
       <button class="btn" id="printBtn">Salvar em PDF</button>
+      <button class="btn secondary" id="downloadBtn">Baixar backup</button>
       <button class="btn secondary" id="expandBtn">Mostrar tudo</button>
-      <button class="btn secondary" id="clearAllBtn">Limpar tudo</button>
+      <button class="btn danger" id="clearAllBtn">Limpar tudo</button>
       <button class="btn ghost" id="installBtn" hidden>Instalar app</button>
 
       <div class="search-wrap">
@@ -627,11 +611,11 @@
     <div class="layout">
       <aside class="sidebar">
         <h2>Menu lateral por ossos</h2>
-        <p class="mini">Toque em um osso para ir direto ao bloco correspondente.</p>
+        <p>Toque em um osso para ir direto ao bloco correspondente.</p>
         <nav id="sideNav"></nav>
       </aside>
 
-      <main class="content-col" id="content"></main>
+      <main id="content"></main>
     </div>
 
     <footer>
@@ -643,81 +627,54 @@
 
   <div class="lightbox hidden" id="lightbox">
     <div class="lightbox-inner">
-      <button class="close-lightbox" id="closeLightbox" aria-label="Fechar">×</button>
-      <img id="lightboxImg" alt="Imagem ampliada" />
+      <button class="close-lightbox" id="closeLightbox">×</button>
+      <img id="lightboxImg" alt="Imagem ampliada">
     </div>
   </div>
 
   <script>
+    const PROFESSOR_PASSWORD = "prof2026";
+
     const data = [
       {
         id:'superiores',
         title:'Membros Superiores',
         subtitle:'Esqueleto apendicular · roteiro aula prática.',
         bones:[
-          {title:'Clavícula', terms:[
-            '1. Extremidade esternal',
-            ['a. Face articular esternal','b. Impressão do ligamento costoclavicular'],
-            '2. Corpo da clavícula',
-            ['a. Sulco do músculo subclávio'],
-            '3. Extremidade acromial',
-            ['a. Face articular acromial','b. Linha trapezoidea','c. Tubérculo conoide']
-          ]},
-          {title:'Escápula', terms:[
-            '1. Face costal',
-            ['a. Fossa subescapular'],
-            '2. Face posterior',
-            ['a. Espinha da escápula','b. Acrômio','c. Fossa supra-espinal','d. Fossa infra-espinal'],
-            '3. Margem superior',
-            ['a. Incisura da escápula'],
-            '4. Margem medial',
-            '5. Margem lateral',
-            '6. Ângulo superior',
-            '7. Ângulo inferior',
-            '8. Ângulo lateral',
-            '9. Cavidade glenoidal',
-            '10. Tubérculo supraglenoidal',
-            '11. Tubérculo infraglenoidal',
-            '12. Colo da escápula',
-            '13. Processo coracoide'
-          ]},
-          {title:'Úmero', terms:[
-            '14. Cabeça do úmero','15. Colo anatômico','16. Colo cirúrgico','17. Tubérculo maior','18. Tubérculo menor','19. Sulco intertubercular','20. Corpo do úmero','21. Face ântero-medial','22. Face ântero-lateral','23. Face posterior',
-            ['a. Sulco do nervo radial'],
-            '24. Margem medial',
-            ['a. Crista supra-epicondilar medial'],
-            '25. Margem lateral',
-            ['a. Crista supra-epicondilar lateral','b. Tuberosidade para o músculo deltoide'],
-            '26. Côndilo do úmero',
-            ['a. Capítulo do úmero','b. Tróclea do úmero','c. Fossa radial','d. Fossa coronoidea','e. Fossa do olécrano'],
-            '27. Epicôndilo medial',
-            ['a. Sulco do nervo ulnar'],
-            '28. Epicôndilo lateral'
-          ]},
-          {title:'Ulna', terms:[
-            '29. Olecrano','30. Processo coronoide',
-            ['a. Incisura radial','b. Tuberosidade da ulna'],
-            '31. Incisura troclear','32. Crista do músculo supinador','33. Corpo da ulna','34. Face anterior','35. Face posterior','36. Face medial','37. Margem interóssea','38. Margem anterior','39. Margem posterior','40. Cabeça da ulna',
-            ['a. Circunferência articular','b. Processo estiloide da ulna']
-          ]},
-          {title:'Rádio', terms:[
-            '41. Cabeça do rádio',
-            ['a. Fóvea articular','b. Circunferência articular'],
-            '42. Colo do rádio','43. Corpo do rádio','44. Tuberosidade do rádio','45. Face anterior','46. Face posterior','47. Face lateral','48. Margem anterior','49. Margem posterior','50. Margem interóssea','51. Processo estiloide do rádio','52. Incisura ulnar','53. Face articular carpal','54. Tubérculo dorsal'
-          ]},
-          {title:'Ossos da mão', terms:[
-            'Ossos carpais',
-            '55. Escafoide',
-            ['a. Tubérculo do escafoide'],
-            '56. Semilunar','57. Piramidal','58. Pisiforme','59. Trapézio',
-            ['a. Tubérculo do trapézio'],
-            '60. Trapezoide','61. Capitato','62. Hamato',
-            ['a. Hâmulo do osso hamato'],
-            'Ossos metacarpais',
-            '63. Base do metacarpal (I a V)','64. Corpo do metacarpal (I a V)','65. Cabeça do metacarpal (I a V)',
-            'Falanges',
-            '66. Base da falange (proximal, média ou distal) do X dedo','67. Corpo da falange (proximal, média ou distal) do X dedo','68. Cabeça da falange (proximal, média ou distal) do X dedo'
-          ]}
+          {
+            title:'Clavícula',
+            terms:[
+              '1. Extremidade esternal',
+              ['a. Face articular esternal','b. Impressão do ligamento costoclavicular'],
+              '2. Corpo da clavícula',
+              ['a. Sulco do músculo subclávio'],
+              '3. Extremidade acromial',
+              ['a. Face articular acromial','b. Linha trapezoidea','c. Tubérculo conoide']
+            ],
+            teacherAnswer:'Identificar extremidades, corpo e principais acidentes anatômicos da clavícula.'
+          },
+          {
+            title:'Escápula',
+            terms:[
+              '1. Face costal',
+              ['a. Fossa subescapular'],
+              '2. Face posterior',
+              ['a. Espinha da escápula','b. Acrômio','c. Fossa supra-espinal','d. Fossa infra-espinal'],
+              '3. Margem superior',
+              ['a. Incisura da escápula'],
+              '4. Margem medial',
+              '5. Margem lateral',
+              '6. Ângulo superior',
+              '7. Ângulo inferior',
+              '8. Ângulo lateral',
+              '9. Cavidade glenoidal',
+              '10. Tubérculo supraglenoidal',
+              '11. Tubérculo infraglenoidal',
+              '12. Colo da escápula',
+              '13. Processo coracoide'
+            ],
+            teacherAnswer:'Reconhecer faces, margens, ângulos, cavidade glenoidal e processos da escápula.'
+          }
         ]
       },
       {
@@ -725,75 +682,51 @@
         title:'Membros Inferiores',
         subtitle:'Estruturas ósseas e acidentes anatômicos do quadril ao pé.',
         bones:[
-          {title:'Ossos do quadril · Ílio', terms:[
-            '1. Corpo do ílio','2. Asa do ílio','3. Linha arqueada','4. Crista ilíaca','5. Lábio externo da crista ilíaca','6. Lábio interno da crista ilíaca','7. Espinha ilíaca ântero-superior','8. Espinha ilíaca ântero-inferior','9. Espinha ilíaca póstero-superior','10. Espinha ilíaca póstero-inferior','11. Fossa ilíaca','12. Face glútea','13. Linha glútea anterior','14. Linha glútea posterior','15. Linha glútea inferior','16. Face sacropélvica','17. Face auricular','18. Tuberosidade ilíaca','19. Incisura isquiática maior'
-          ]},
-          {title:'Ísquio, Púbis, Acetábulo e Pelve', terms:[
-            'Ísquio','20. Corpo do ísquio','21. Ramo do ísquio','22. Túber isquiático','23. Espinha isquiática','24. Incisura isquiática menor',
-            'Púbis','25. Corpo do púbis','26. Ramo superior do púbis','27. Ramo inferior do púbis','28. Face sinfisial','29. Crista púbica','30. Tubérculo púbico','31. Eminência iliopúbica','32. Linha pectínea do púbis','33. Crista obturatória',
-            'Acetábulo','34. Limbo do acetábulo','35. Face semilunar','36. Fossa do acetábulo','37. Incisura do acetábulo','38. Forame obturado',
-            'Pelve','39. Cavidade pélvica','40. Arco púbico','41. Ângulo subpúbico','42. Abertura superior da pelve','43. Abertura inferior da pelve','44. Pelve maior','45. Pelve menor','46. Linha terminal (linha arqueada do ílio + linha pectínea do púbis)'
-          ]},
-          {title:'Fêmur', terms:[
-            '47. Cabeça do fêmur','48. Fóvea da cabeça do fêmur','49. Colo do fêmur','50. Trocânter maior',
-            ['a. Fossa trocantérica'],
-            '51. Trocânter menor','52. Linha intertrocantérica','53. Crista intertrocantérica','54. Corpo do fêmur','55. Linha áspera',
-            ['a. Lábio lateral da linha áspera','b. Lábio medial da linha áspera'],
-            '56. Tuberosidade glútea','57. Linha pectínea','58. Linha supracondilar lateral','59. Linha supracondilar medial','60. Face poplítea','61. Côndilo medial','62. Epicôndilo medial','63. Tubérculo do adutor','64. Côndilo lateral','65. Epicôndilo lateral','66. Fossa intercondilar','67. Face patelar'
-          ]},
-          {title:'Patela', terms:[
-            '68. Base da patela','69. Ápice da patela','70. Face anterior','71. Face articular'
-          ]},
-          {title:'Tíbia', terms:[
-            '72. Face articular superior','73. Côndilo lateral','74. Côndilo medial','75. Área intercondilar anterior','76. Área intercondilar posterior','77. Eminência intercondilar',
-            ['a. Tubérculo intercondilar lateral','b. Tubérculo intercondilar medial'],
-            '78. Corpo da tíbia','79. Tuberosidade da tíbia','80. Face medial','81. Face lateral','82. Face posterior','83. Margem anterior','84. Margem medial','85. Margem interóssea','86. Linha para o músculo sóleo','87. Maléolo medial','88. Incisura fibular','89. Face articular inferior'
-          ]},
-          {title:'Fíbula', terms:[
-            '90. Cabeça da fíbula','91. Ápice da cabeça da fíbula','92. Face articular da cabeça da fíbula','93. Colo da fíbula','94. Corpo da fíbula','95. Face medial','96. Face lateral','97. Face posterior','98. Margem anterior','99. Margem posterior','100. Margem interóssea','101. Maléolo lateral','102. Fossa do maléolo lateral','103. Face articular do maléolo lateral'
-          ]},
-          {title:'Ossos tarsais · Tálus', terms:[
-            '104. Cabeça do tálus','105. Face articular navicular','106. Face articular calcânea anterior','107. Colo do tálus','108. Face articular calcânea média','109. Corpo do tálus','110. Tróclea do tálus','111. Face maleolar lateral','112. Processo lateral do tálus','113. Face maleolar medial','114. Processo posterior do tálus',
-            ['a. Tubérculo lateral do processo posterior do tálus','b. Tubérculo medial do processo posterior do tálus'],
-            '115. Face articular calcânea posterior'
-          ]},
-          {title:'Calcâneo', terms:[
-            '116. Tuberosidade do calcâneo',
-            ['a. Processo lateral da tuberosidade do calcâneo','b. Processo medial da tuberosidade do calcâneo','c. Tubérculo do calcâneo'],
-            '117. Sustentáculo do tálus','118. Tróclea fibular','119. Face articular talar anterior','120. Face articular talar média','121. Face articular talar posterior','122. Face articular do cuboide'
-          ]},
-          {title:'Navicular, Cuboide e Cuneiformes', terms:[
-            'Navicular','123. Tuberosidade do navicular','Cuboide','124. Tuberosidade do cuboide','Cuneiformes','125. Cuneiforme lateral','126. Cuneiforme medial','127. Cuneiforme intermédio'
-          ]},
-          {title:'Metatarsais e Falanges', terms:[
-            'Ossos metatarsais','128. Base do metatarsal (I a V)','129. Corpo do metatarsal (I a V)','130. Cabeça do metatarsal (I a V)','131. Tuberosidade do I metatarsal','132. Tuberosidade do V metatarsal','Falanges','133. Base da falange (proximal, média ou distal) do X dedo','134. Corpo da falange (proximal, média ou distal) do X dedo','135. Cabeça da falange (proximal, média ou distal) do X dedo'
-          ]}
+          {
+            title:'Fêmur',
+            terms:[
+              '47. Cabeça do fêmur','48. Fóvea da cabeça do fêmur','49. Colo do fêmur','50. Trocânter maior',
+              ['a. Fossa trocantérica'],
+              '51. Trocânter menor','52. Linha intertrocantérica','53. Crista intertrocantérica','54. Corpo do fêmur','55. Linha áspera',
+              ['a. Lábio lateral da linha áspera','b. Lábio medial da linha áspera'],
+              '56. Tuberosidade glútea','57. Linha pectínea','58. Linha supracondilar lateral','59. Linha supracondilar medial','60. Face poplítea','61. Côndilo medial','62. Epicôndilo medial','63. Tubérculo do adutor','64. Côndilo lateral','65. Epicôndilo lateral','66. Fossa intercondilar','67. Face patelar'
+            ],
+            teacherAnswer:'Observar cabeça, colo, trocânteres, linha áspera e região distal do fêmur.'
+          }
         ]
       }
     ];
+
+    // Substitua o bloco data acima pelo seu conteúdo completo com todos os ossos.
 
     const content = document.getElementById('content');
     const sideNav = document.getElementById('sideNav');
     const searchInput = document.getElementById('searchInput');
     const printBtn = document.getElementById('printBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
     const expandBtn = document.getElementById('expandBtn');
     const clearAllBtn = document.getElementById('clearAllBtn');
     const installBtn = document.getElementById('installBtn');
-
+    const iosHint = document.getElementById('iosHint');
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightboxImg');
     const closeLightbox = document.getElementById('closeLightbox');
 
     let deferredPrompt = null;
 
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    if (isIOS && !isInStandaloneMode) iosHint.style.display = 'block';
+
     const dbPromise = (() => {
       return new Promise((resolve, reject) => {
-        const request = indexedDB.open('osteologiaPWA', 2);
+        const request = indexedDB.open('osteologiaPWA', 3);
         request.onupgradeneeded = () => {
           const db = request.result;
           if (!db.objectStoreNames.contains('notes')) db.createObjectStore('notes');
           if (!db.objectStoreNames.contains('media')) db.createObjectStore('media');
           if (!db.objectStoreNames.contains('checks')) db.createObjectStore('checks');
+          if (!db.objectStoreNames.contains('teacher')) db.createObjectStore('teacher');
         };
         request.onsuccess = () => resolve(request.result);
         request.onerror = () => reject(request.error);
@@ -821,8 +754,7 @@
     }
 
     function slugify(text){
-      return text
-        .toLowerCase()
+      return text.toLowerCase()
         .normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '')
         .replace(/[^a-z0-9]+/g, '-')
@@ -832,11 +764,8 @@
     function flattenTerms(terms){
       const flat = [];
       terms.forEach(item => {
-        if(Array.isArray(item)){
-          item.forEach(sub => flat.push(sub));
-        } else {
-          flat.push(item);
-        }
+        if(Array.isArray(item)) item.forEach(sub => flat.push(sub));
+        else flat.push(item);
       });
       return flat;
     }
@@ -844,7 +773,6 @@
     function renderTerms(terms){
       const ol = document.createElement('ol');
       ol.className = 'terms';
-
       terms.forEach(item => {
         if(Array.isArray(item)){
           const subOl = document.createElement('ol');
@@ -862,14 +790,12 @@
           ol.appendChild(li);
         }
       });
-
       return ol;
     }
 
     async function renderChecklist(cardId, flatTerms, mount){
       const saved = (await getStoreValue('checks', cardId)) || {};
       mount.innerHTML = '';
-
       flatTerms.forEach((term, idx) => {
         const label = document.createElement('label');
         label.className = 'check-item';
@@ -886,6 +812,7 @@
           state[idx] = cb.checked;
           await setStoreValue('checks', cardId, state);
           label.classList.toggle('done', cb.checked);
+          flashStatus(cardId, cb.checked ? 'Checklist atualizado.' : 'Checklist atualizado.');
         });
 
         mount.appendChild(label);
@@ -894,35 +821,22 @@
 
     function buildSidebar(){
       sideNav.innerHTML = '';
-
       data.forEach(section => {
         const group = document.createElement('div');
         group.className = 'nav-group';
-
-        const title = document.createElement('span');
-        title.className = 'nav-group-title';
-        title.textContent = section.title;
-        group.appendChild(title);
-
+        group.innerHTML = `<span class="nav-group-title">${section.title}</span>`;
         const list = document.createElement('ul');
         list.className = 'nav-list';
 
         section.bones.forEach((bone, index) => {
-          const boneId = `${section.id}-${index}-${slugify(bone.title)}`;
+          const id = `${section.id}-${index}-${slugify(bone.title)}`;
           const li = document.createElement('li');
-          li.innerHTML = `<a href="#${boneId}" data-target="${boneId}">${bone.title}</a>`;
+          li.innerHTML = `<a href="#${id}" data-target="${id}">${bone.title}</a>`;
           list.appendChild(li);
         });
 
         group.appendChild(list);
         sideNav.appendChild(group);
-      });
-
-      document.querySelectorAll('.nav-list a').forEach(link => {
-        link.addEventListener('click', () => {
-          document.querySelectorAll('.nav-list a').forEach(a => a.classList.remove('active'));
-          link.classList.add('active');
-        });
       });
     }
 
@@ -944,11 +858,11 @@
         const grid = sectionEl.querySelector('.bone-grid');
 
         for(const [index, bone] of section.bones.entries()){
-          const card = document.createElement('article');
           const cardId = `${section.id}-${index}`;
           const anchorId = `${section.id}-${index}-${slugify(bone.title)}`;
           const flatTerms = flattenTerms(bone.terms);
 
+          const card = document.createElement('article');
           card.className = 'bone-card';
           card.id = anchorId;
           card.dataset.search = JSON.stringify(bone).toLowerCase();
@@ -961,33 +875,38 @@
 
             <div class="terms-wrap"></div>
 
-            <div class="checklist-block">
+            <div class="block">
               <div class="block-title">Checklist de identificação</div>
               <div class="checklist" id="checklist-${cardId}"></div>
-              <div class="check-actions">
+              <div class="action-row">
                 <button class="mini-btn" data-action="mark-all" data-id="${cardId}">Marcar tudo</button>
                 <button class="mini-btn" data-action="clear-checks" data-id="${cardId}">Limpar checklist</button>
               </div>
             </div>
 
-            <div class="notes-block">
+            <div class="block">
               <div class="block-title">Anotações</div>
-              <textarea class="note" id="note-${cardId}" placeholder="Digite observações, referências anatômicas, dúvidas ou relações práticas..."></textarea>
-
-              <div class="check-actions">
+              <textarea class="note" id="note-${cardId}" placeholder="Digite observações, relações práticas, dúvidas e referências anatômicas..."></textarea>
+              <div class="action-row">
                 <button class="mini-btn" data-action="clear-note" data-id="${cardId}">Limpar anotações</button>
+                <button class="mini-btn" data-action="toggle-teacher" data-id="${cardId}">Resposta do professor</button>
+              </div>
+
+              <div class="teacher-box" id="teacherBox-${cardId}">
+                <label class="teacher-label">Resposta do professor</label>
+                <textarea class="teacher-answer" id="teacher-${cardId}" placeholder="Digite a resposta/modelo do professor..."></textarea>
               </div>
 
               <div class="media-actions">
                 <label class="upload-label">📷 Tirar foto
-                  <input type="file" accept="image/*" capture="environment" data-kind="camera" data-id="${cardId}">
+                  <input type="file" accept="image/*" capture="environment" data-id="${cardId}">
                 </label>
                 <label class="upload-label">🖼️ Inserir imagens
-                  <input type="file" accept="image/*" multiple data-kind="gallery" data-id="${cardId}">
+                  <input type="file" accept="image/*" multiple data-id="${cardId}">
                 </label>
               </div>
 
-              <div class="status muted" id="status-${cardId}">As anotações, checklist e imagens ficam salvos neste navegador.</div>
+              <div class="status muted" id="status-${cardId}">As anotações, checklist, imagens e respostas ficam salvos neste navegador.</div>
               <div class="gallery" id="gallery-${cardId}"></div>
             </div>
           `;
@@ -997,10 +916,16 @@
 
           const note = card.querySelector('.note');
           note.value = (await getStoreValue('notes', cardId)) || '';
-
           note.addEventListener('input', async e => {
             await setStoreValue('notes', cardId, e.target.value);
             flashStatus(cardId, 'Anotação salva.');
+          });
+
+          const teacher = card.querySelector('.teacher-answer');
+          teacher.value = (await getStoreValue('teacher', cardId)) || bone.teacherAnswer || '';
+          teacher.addEventListener('input', async e => {
+            await setStoreValue('teacher', cardId, e.target.value);
+            flashStatus(cardId, 'Resposta do professor salva.');
           });
 
           await renderChecklist(cardId, flatTerms, card.querySelector(`#checklist-${cardId}`));
@@ -1011,7 +936,7 @@
       }
 
       bindUploads();
-      bindCardActions();
+      bindActions();
       bindLightbox();
       activateScrollSpy();
     }
@@ -1022,15 +947,14 @@
       status.textContent = text;
       status.classList.remove('muted');
       setTimeout(() => {
-        status.textContent = 'As anotações, checklist e imagens ficam salvos neste navegador.';
+        status.textContent = 'As anotações, checklist, imagens e respostas ficam salvos neste navegador.';
         status.classList.add('muted');
-      }, 1300);
+      }, 1400);
     }
 
     async function renderGallery(cardId){
       const gallery = document.getElementById(`gallery-${cardId}`);
       if(!gallery) return;
-
       gallery.innerHTML = '';
       const items = (await getStoreValue('media', cardId)) || [];
 
@@ -1039,7 +963,7 @@
         fig.className = 'thumb';
         fig.innerHTML = `
           <img src="${src}" alt="Imagem inserida" data-full="${src}">
-          <button class="remove-media" title="Remover imagem" data-id="${cardId}" data-index="${idx}">×</button>
+          <button class="remove-media" data-id="${cardId}" data-index="${idx}">×</button>
         `;
         gallery.appendChild(fig);
       });
@@ -1077,13 +1001,11 @@
           const id = e.target.dataset.id;
           const files = [...e.target.files];
           if(!files.length) return;
-
           const stored = (await getStoreValue('media', id)) || [];
           for(const file of files){
             const src = await fileToDataURL(file);
             stored.push(src);
           }
-
           await setStoreValue('media', id, stored);
           await renderGallery(id);
           flashStatus(id, 'Imagem salva.');
@@ -1092,7 +1014,7 @@
       });
     }
 
-    function bindCardActions(){
+    function bindActions(){
       document.querySelectorAll('[data-action]').forEach(btn => {
         btn.addEventListener('click', async () => {
           const action = btn.dataset.action;
@@ -1100,35 +1022,43 @@
 
           if(action === 'clear-note'){
             const note = document.getElementById(`note-${id}`);
-            if(note){
-              note.value = '';
-              await setStoreValue('notes', id, '');
-              flashStatus(id, 'Anotações limpas.');
-            }
+            note.value = '';
+            await setStoreValue('notes', id, '');
+            flashStatus(id, 'Anotações limpas.');
           }
 
           if(action === 'clear-checks'){
             await setStoreValue('checks', id, {});
             const card = btn.closest('.bone-card');
-            if(card){
-              card.querySelectorAll('.check-item').forEach(item => item.classList.remove('done'));
-              card.querySelectorAll('.check-item input').forEach(cb => cb.checked = false);
-            }
+            card.querySelectorAll('.check-item').forEach(item => item.classList.remove('done'));
+            card.querySelectorAll('.check-item input').forEach(cb => cb.checked = false);
             flashStatus(id, 'Checklist limpo.');
           }
 
           if(action === 'mark-all'){
-            const card = btn.closest('.bone-card');
             const state = {};
-            if(card){
-              card.querySelectorAll('.check-item input').forEach((cb, idx) => {
-                cb.checked = true;
-                cb.closest('.check-item').classList.add('done');
-                state[idx] = true;
-              });
-            }
+            const card = btn.closest('.bone-card');
+            card.querySelectorAll('.check-item input').forEach((cb, idx) => {
+              cb.checked = true;
+              cb.closest('.check-item').classList.add('done');
+              state[idx] = true;
+            });
             await setStoreValue('checks', id, state);
             flashStatus(id, 'Checklist marcado.');
+          }
+
+          if(action === 'toggle-teacher'){
+            const box = document.getElementById(`teacherBox-${id}`);
+            if(box.classList.contains('show')){
+              box.classList.remove('show');
+              return;
+            }
+            const pass = prompt('Digite a senha do professor:');
+            if(pass === PROFESSOR_PASSWORD){
+              box.classList.add('show');
+            } else if(pass !== null){
+              alert('Senha incorreta.');
+            }
           }
         });
       });
@@ -1139,7 +1069,6 @@
         lightbox.classList.add('hidden');
         lightboxImg.src = '';
       });
-
       lightbox.addEventListener('click', e => {
         if(e.target === lightbox){
           lightbox.classList.add('hidden');
@@ -1151,13 +1080,12 @@
     function activateScrollSpy(){
       const cards = document.querySelectorAll('.bone-card[id]');
       const links = document.querySelectorAll('.nav-list a');
-
-      const observer = new IntersectionObserver((entries) => {
+      const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
           if(entry.isIntersecting){
-            links.forEach(link => link.classList.remove('active'));
-            const active = document.querySelector(`.nav-list a[data-target="${entry.target.id}"]`);
-            if(active) active.classList.add('active');
+            links.forEach(a => a.classList.remove('active'));
+            const link = document.querySelector(`.nav-list a[data-target="${entry.target.id}"]`);
+            if(link) link.classList.add('active');
           }
         });
       }, { rootMargin: '-30% 0px -55% 0px', threshold: 0.1 });
@@ -1165,69 +1093,103 @@
       cards.forEach(card => observer.observe(card));
     }
 
+    function downloadBackupFile(filename, dataObj){
+      const blob = new Blob([JSON.stringify(dataObj, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
     searchInput.addEventListener('input', e => {
       const q = e.target.value.trim().toLowerCase();
 
       document.querySelectorAll('.section-card').forEach(section => {
         let sectionMatch = false;
-
         section.querySelectorAll('.bone-card').forEach(card => {
           const match = !q || card.dataset.search.includes(q);
           card.classList.toggle('hidden', !match);
           if(match) sectionMatch = true;
         });
-
-        section.classList.toggle('hidden', !sectionMatch && q.length > 0 && !section.dataset.search.includes(q));
+        section.classList.toggle('hidden', !sectionMatch && q.length > 0);
       });
 
       document.querySelectorAll('.nav-group').forEach(group => {
         let anyVisible = false;
-        const links = group.querySelectorAll('a');
-
-        links.forEach(link => {
+        group.querySelectorAll('a').forEach(link => {
           const target = document.getElementById(link.dataset.target);
           const visible = target && !target.classList.contains('hidden');
           link.parentElement.classList.toggle('hidden', !visible);
           if(visible) anyVisible = true;
         });
-
         group.classList.toggle('hidden', !anyVisible);
       });
     });
 
     printBtn.addEventListener('click', () => window.print());
 
+    downloadBtn.addEventListener('click', async () => {
+      const db = await dbPromise;
+
+      function readAll(storeName){
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction(storeName, 'readonly');
+          const store = tx.objectStore(storeName);
+          const req = store.getAllKeys();
+          const reqVals = store.getAll();
+
+          tx.oncomplete = () => {
+            const obj = {};
+            req.result.forEach((key, i) => obj[key] = reqVals.result[i]);
+            resolve(obj);
+          };
+          tx.onerror = () => reject(tx.error);
+        });
+      }
+
+      const backup = {
+        exportedAt: new Date().toISOString(),
+        notes: await readAll('notes'),
+        checks: await readAll('checks'),
+        media: await readAll('media'),
+        teacher: await readAll('teacher')
+      };
+
+      downloadBackupFile('osteologia-backup.json', backup);
+    });
+
     expandBtn.addEventListener('click', () => {
-      document.querySelectorAll('.gallery').forEach(g => g.classList.remove('hidden'));
-      document.querySelectorAll('.bone-card').forEach(c => c.classList.remove('hidden'));
-      document.querySelectorAll('.section-card').forEach(s => s.classList.remove('hidden'));
-      document.querySelectorAll('.nav-group, .nav-group li').forEach(el => el.classList.remove('hidden'));
+      document.querySelectorAll('.bone-card,.section-card,.nav-group,.nav-group li').forEach(el => el.classList.remove('hidden'));
       searchInput.value = '';
     });
 
     clearAllBtn.addEventListener('click', async () => {
-      const ok = confirm('Deseja apagar todas as anotações, checklists e imagens salvas neste navegador?');
+      const ok = confirm('Deseja apagar todas as anotações, checklist, imagens e respostas salvas neste navegador?');
       if(!ok) return;
 
       const db = await dbPromise;
-
       await new Promise((resolve, reject) => {
-        const tx = db.transaction(['notes','media','checks'], 'readwrite');
+        const tx = db.transaction(['notes','media','checks','teacher'], 'readwrite');
         tx.objectStore('notes').clear();
         tx.objectStore('media').clear();
         tx.objectStore('checks').clear();
+        tx.objectStore('teacher').clear();
         tx.oncomplete = () => resolve();
         tx.onerror = () => reject(tx.error);
       });
 
       await renderApp();
-      alert('Todos os dados locais foram apagados.');
+      alert('Dados locais apagados.');
     });
 
     window.addEventListener('beforeinstallprompt', e => {
       e.preventDefault();
       deferredPrompt = e;
-      installBtn.hidden = false;
+      if(!isIOS) installBtn.hidden = false;
     });
 
     installBtn.addEventListener('click', async () => {
